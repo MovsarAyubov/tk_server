@@ -1,0 +1,31 @@
+version: "3.3"
+services:
+  postgres:
+    image: postgres:13.3
+    environment:
+      POSTGRES_DB: "tk_app"
+      POSTGRES_USER: "movsar"
+      POSTGRES_PASSWORD: "123qaz"
+    volumes:
+      # - ../2. Init Database:/docker-entrypoint-initdb.d
+      - habrdb-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+  api_server:
+    build:
+      context: .
+      dockerfile: "Dockerfile"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: always
+    container_name: api_server
+    env_file:
+      - .env
+    ports:
+      - "${SERVER_PORT}:${SERVER_PORT}"
+    expose:
+      - "${SERVER_PORT}"
+    depends_on:
+      - postgres
+volumes:
+  habrdb-data:
