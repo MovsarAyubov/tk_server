@@ -14,7 +14,7 @@ func GetWorkers(c *gin.Context) {
 	workers := []models.Worker{}
 	err := database.Connection.Db.Select(&workers, `
 		SELECT id, name, firstname, patronomic 
-		FROM users 
+		FROM workers 
 		ORDER BY firstname
 	`)
 	if err != nil {

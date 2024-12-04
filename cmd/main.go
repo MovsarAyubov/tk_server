@@ -34,4 +34,5 @@ func main() {
 
 	// Router
 	api.StartRouter(envFile["SERVER_PORT"])
+	
 }
