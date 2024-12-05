@@ -33,10 +33,24 @@ func CreateWorker(c *gin.Context) {
 		return
 	}
 
-	query := `INSERT INTO workers (name, firstname, patronomic) VALUES ($1, $2, $3) RETURNING id`
+	// Check if worker already exists
+	var exists bool
+	checkQuery := `SELECT EXISTS(SELECT 1 FROM workers WHERE name=$1 AND firstname=$2 AND patronomic=$3)`
+	err := database.Connection.Db.QueryRow(checkQuery, worker.Name, worker.Firstname, worker.Patronomic).Scan(&exists)
+	if err != nil {
+		c.JSON(500, err)
+		return
+	}
 
+	if exists {
+		c.JSON(409, gin.H{"error": "Worker already exists"})
+		return
+	}
+
+	// Insert new worker
+	query := `INSERT INTO workers (name, firstname, patronomic) VALUES ($1, $2, $3) RETURNING id`
 	var id int
-	err := database.Connection.Db.QueryRow(query, worker.Name, worker.Firstname, worker.Patronomic).Scan(&id)
+	err = database.Connection.Db.QueryRow(query, worker.Name, worker.Firstname, worker.Patronomic).Scan(&id)
 	if err != nil {
 		c.JSON(400, err)
 		return

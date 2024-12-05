@@ -42,20 +42,20 @@ func Connect(login DatabaseLogin) {
 }
 
 func CreateTables(connection DatabaseConnection) {
-	createUserTable(connection)
+	createWorkerTable(connection)
 	createTypeOfWorkTable(connection)
 	createCellTable(connection)
 	createRowTable(connection)
 	createDoneWorkTable(connection)
 }
 
-func createUserTable(connection DatabaseConnection) {
+func createWorkerTable(connection DatabaseConnection) {
 	_, err := connection.Db.Exec(`
-			CREATE TABLE IF NOT EXISTS users (
+			CREATE TABLE IF NOT EXISTS workers (
 				id SERIAL PRIMARY KEY,
 				name VARCHAR(20) NOT NULL,
 				firstname VARCHAR(20) NOT NULL,
-				patronomic VARCHAR(20) NOT NULL
+				 patronomic VARCHAR(20) NOT NULL
 			)
 	`)
 	if err != nil {
@@ -109,11 +109,11 @@ func createDoneWorkTable(connection DatabaseConnection) {
 			date DATE NOT NULL,
 			worker_id SMALLINT NOT NULL,
 			type_of_work_id SMALLINT NOT NULL,
-			uom_id SMALLINT NOT NULL,
-			cell_id SMALLINT NOT NULL,
+			cell_id SMALLINT,
+			row_id SMALLINT,
 			count SMALLINT NOT NULL,
 			income SMALLINT NOT NULL,
-			FOREIGN KEY (worker_id) REFERENCES users(id),
+			FOREIGN KEY (worker_id) REFERENCES workers(id),
 			FOREIGN KEY (type_of_work_id) REFERENCES type_of_work(id),
 			FOREIGN KEY (cell_id) REFERENCES cell(id)
 		)
