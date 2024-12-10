@@ -56,6 +56,25 @@ func CreateWorker(c *gin.Context) {
 		return
 	}
 
-	worker.ID = id
+	worker.Id = id
 	c.JSON(http.StatusCreated, worker)
+}
+
+func DeleteWorker(c *gin.Context) {
+	var worker models.Worker
+
+	if err := c.ShouldBindJSON(&worker); err != nil {
+		c.JSON(400, err)
+		return
+	}
+	query := `DELETE FROM workers WHERE Id=$1 RETURNING id`
+	var id int
+	err := database.Connection.Db.QueryRow(query, worker.Id).Scan(&id)
+	if err != nil {
+		c.JSON(400, err)
+		fmt.Println(err)
+		return
+	}
+	worker.Id = id
+	c.JSON(http.StatusOK, worker)
 }
