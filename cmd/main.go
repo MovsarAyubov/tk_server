@@ -32,6 +32,18 @@ func main() {
 
 	database.CreateTables(database.Connection)
 
+	// query := `INSERT INTO type_of_work (name, uom, price, period) VALUES ($1, $2, $3, $4)`
+	// err = database.Connection.Db.QueryRow(query, "Вынос матов", "Ряд", "200", "Выброска").Err()
+	// if err != nil {
+	// 	panic(err)
+	// }
+
+	// query2 := `INSERT INTO row (cell_id) VALUES ($1)`
+	// err = database.Connection.Db.QueryRow(query2, 1).Err()
+	// if err != nil {
+	// 	panic(err)
+	// }
+
 	// Router
 	api.StartRouter(envFile["SERVER_PORT"])
 

@@ -55,7 +55,7 @@ func createWorkerTable(connection DatabaseConnection) {
 				id SERIAL PRIMARY KEY,
 				name VARCHAR(20) NOT NULL,
 				firstname VARCHAR(20) NOT NULL,
-				 patronomic VARCHAR(20) NOT NULL
+				patronomic VARCHAR(20) NOT NULL
 			)
 	`)
 	if err != nil {
@@ -113,9 +113,9 @@ func createDoneWorkTable(connection DatabaseConnection) {
 			row_id SMALLINT,
 			count SMALLINT NOT NULL,
 			income SMALLINT NOT NULL,
-			FOREIGN KEY (worker_id) REFERENCES workers(id),
+			FOREIGN KEY (workerId) REFERENCES workers(id),
 			FOREIGN KEY (type_of_work_id) REFERENCES type_of_work(id),
-			FOREIGN KEY (cell_id) REFERENCES cell(id)
+			FOREIGN KEY (cellId) REFERENCES cell(id)
 		)
 	`)
 	if err != nil {
