@@ -67,9 +67,9 @@ func createTypeOfWorkTable(connection DatabaseConnection) {
 	_, err := connection.Db.Exec(`
 		CREATE TABLE IF NOT EXISTS type_of_work (
 			id SERIAL PRIMARY KEY,
-			name VARCHAR(40) NOT NULL,
+			name VARCHAR(80) NOT NULL,
 			uom VARCHAR(100) NOT NULL,
-			price SMALLINT NOT NULL,
+			price FLOAT NOT NULL,
 			period VARCHAR(30) NOT NULL
 		)
 	`)
@@ -113,9 +113,9 @@ func createDoneWorkTable(connection DatabaseConnection) {
 			row_id SMALLINT,
 			count SMALLINT NOT NULL,
 			income SMALLINT NOT NULL,
-			FOREIGN KEY (workerId) REFERENCES workers(id),
+			FOREIGN KEY (worker_id) REFERENCES workers(id),
 			FOREIGN KEY (type_of_work_id) REFERENCES type_of_work(id),
-			FOREIGN KEY (cellId) REFERENCES cell(id)
+			FOREIGN KEY (cell_id) REFERENCES cell(id)
 		)
 	`)
 	if err != nil {

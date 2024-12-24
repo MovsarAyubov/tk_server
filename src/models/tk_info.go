@@ -7,11 +7,11 @@ type ResultServerResponse struct {
 }
 
 type TypeOfWorkModel struct {
-	Id     int    `json:"id"`
-	Name   string `json:"name"`
-	Uom    string `json:"uom"`
-	Price  int    `json:"price"`
-	Period string `json:"period"`
+	Id     int     `json:"id"`
+	Name   string  `json:"name"`
+	Uom    string  `json:"uom"`
+	Price  float32 `json:"price"`
+	Period string  `json:"period"`
 }
 
 type Row struct {
