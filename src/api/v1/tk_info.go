@@ -35,3 +35,32 @@ func GetTKInfo(c *gin.Context) {
 	}
 	c.JSON(200, models.ResultServerResponse{TypesOfWork: tkInfo.TypesOfWork, Cell: tkInfo.Cell, Row: tkInfo.Row})
 }
+
+func GetPeriods(c *gin.Context) {
+	periods := models.Periods{}
+
+	err := database.Connection.Db.Select(&periods.Period, `SELECT period FROM type_of_work`)
+	if err != nil {
+		c.JSON(400, err)
+		panic(err)
+	}
+
+	c.JSON(200, models.Periods{Period: periods.Period})
+}
+
+func GetWorkByPeriod(c *gin.Context) {
+	period := c.Query("period")
+	if period == "" {
+		c.JSON(401, models.ErrorResponse{Message: "Ошибка сервера"})
+		return
+	}
+	works := models.Works{}
+
+	err := database.Connection.Db.Select(&works.Works, `SELECT id, name, uom, price, period FROM type_of_work WHERE period=$1`, period)
+	if err != nil {
+		c.JSON(400, err)
+		panic(err)
+	}
+
+	c.JSON(200, models.Works{Works: works.Works})
+}

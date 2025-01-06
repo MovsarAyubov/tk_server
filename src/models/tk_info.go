@@ -1,5 +1,13 @@
 package models
 
+type Periods struct {
+	Period []string `json:"period"`
+}
+
+type Works struct {
+	Works []TypeOfWorkModel `json:"work"`
+}
+
 type ResultServerResponse struct {
 	Cell        []int             `json:"cell"`
 	Row         []Row             `json:"row"`
