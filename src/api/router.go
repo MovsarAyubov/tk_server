@@ -13,6 +13,7 @@ func StartRouter(port string) {
 
 	router.GET("/api/v1/workers", v1.GetWorkers)
 	router.POST("/api/v1/worker", v1.CreateWorker)
+	router.POST("/api/v1/add_done_work", v1.AddDoneWork)
 	router.DELETE("/api/v1/workers", v1.DeleteWorker)
 	router.GET("/api/v1/tk_info", v1.GetTKInfo)
 	router.GET("/api/v1/periods", v1.GetPeriods)

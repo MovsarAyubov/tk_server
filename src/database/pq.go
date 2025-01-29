@@ -106,13 +106,13 @@ func createDoneWorkTable(connection DatabaseConnection) {
 	_, err := connection.Db.Exec(`
 		CREATE TABLE IF NOT EXISTS done_work (
 			id SERIAL PRIMARY KEY,
-			date DATE NOT NULL,
+			date VARCHAR(40) NOT NULL,
 			worker_id SMALLINT NOT NULL,
 			type_of_work_id SMALLINT NOT NULL,
 			cell_id SMALLINT,
 			row_id SMALLINT,
-			count SMALLINT NOT NULL,
-			income SMALLINT NOT NULL,
+			count NUMERIC NOT NULL,
+			income NUMERIC NOT NULL,
 			FOREIGN KEY (worker_id) REFERENCES workers(id),
 			FOREIGN KEY (type_of_work_id) REFERENCES type_of_work(id),
 			FOREIGN KEY (cell_id) REFERENCES cell(id)
