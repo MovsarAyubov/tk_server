@@ -18,6 +18,7 @@ func StartRouter(port string) {
 	router.GET("/api/v1/tk_info", v1.GetTKInfo)
 	router.GET("/api/v1/periods", v1.GetPeriods)
 	router.GET("/api/v1/works", v1.GetWorkByPeriod)
+	router.GET("/api/v1/fetch_done_works_by_worker_id", v1.FetchDonwWorksByWorkerId)
 
 	router.Run(fmt.Sprintf("0.0.0.0:%s", port))
 	fmt.Printf("Running and listening to port %s!", port)

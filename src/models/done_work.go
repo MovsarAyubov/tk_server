@@ -4,12 +4,29 @@ import (
 	"github.com/shopspring/decimal"
 )
 
+type DoneWorkServerResponse struct {
+	Items []DoneWorkModelResponse `json:"items"`
+}
+
 type DoneWorkModel struct {
-	WorkerId     int             `json:"workerId"`
-	TypeOfWorkId int             `json:"typeOfWorkId"`
-	Date         string          `json:"date"`
-	CellId       int             `json:"cellId"`
-	RowId        int             `json:"rowId"`
-	Count        decimal.Decimal `json:"count"`
-	Income       decimal.Decimal `json:"income"`
+	Id              int             `json:"id"`
+	Worker_id       int             `json:"worker_id"`
+	Type_of_work_id int             `json:"type_of_work_id"`
+	Date            string          `json:"date"`
+	Cell_id         int             `json:"cell_id"`
+	Row_id          int             `json:"row_id"`
+	Count           decimal.Decimal `json:"count"`
+	Income          decimal.Decimal `json:"income"`
+}
+
+type DoneWorkModelResponse struct {
+	Id                int             `json:"id"`
+	Worker_id         int             `json:"worker_id"`
+	Type_of_work_id   int             `json:"type_of_work_id"`
+	Type_of_work_name string          `json:"type_of_work"`
+	Date              string          `json:"date"`
+	Cell_id           int             `json:"cell_id"`
+	Row_id            int             `json:"row_id"`
+	Count             decimal.Decimal `json:"count"`
+	Income            decimal.Decimal `json:"income"`
 }
