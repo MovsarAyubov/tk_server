@@ -25,13 +25,14 @@ func AddDoneWork(c *gin.Context) {
 	err := database.Connection.Db.QueryRow(query, doneWork.Date, doneWork.Worker_id, doneWork.Type_of_work_id, doneWork.Cell_id, doneWork.Row_id, doneWork.Count, doneWork.Income).Err()
 
 	if err != nil {
-		c.JSON(400, err)
+		fmt.Println("Database error:", err)
+		c.JSON(400, gin.H{"error": "Database error", "details": err.Error()})
 		return
 	}
 	c.JSON(200, nil)
 }
 
-func FetchDonwWorksByWorkerId(c *gin.Context) {
+func FetchDonWorksByWorkerId(c *gin.Context) {
 	workerIDStr := c.Query("workerId")
 	if workerIDStr == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "workerId parameter is required"})

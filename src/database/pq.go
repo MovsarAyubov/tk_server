@@ -93,7 +93,7 @@ func createRowTable(connection DatabaseConnection) {
 	_, err := connection.Db.Exec(`
 		CREATE TABLE IF NOT EXISTS row (
 			id SERIAL PRIMARY KEY,
-			cell_id SMALLINT NOT NULL,
+			cell_id INT  NOT NULL,
 			FOREIGN KEY (cell_id) REFERENCES cell(id)
 		)
 	`)
@@ -107,10 +107,10 @@ func createDoneWorkTable(connection DatabaseConnection) {
 		CREATE TABLE IF NOT EXISTS done_work (
 			id SERIAL PRIMARY KEY,
 			date VARCHAR(40) NOT NULL,
-			worker_id SMALLINT NOT NULL,
-			type_of_work_id SMALLINT NOT NULL,
-			cell_id SMALLINT,
-			row_id SMALLINT,
+			worker_id INT  NOT NULL,
+			type_of_work_id INT  NOT NULL,
+			cell_id INT ,
+			row_id INT ,
 			count NUMERIC NOT NULL,
 			income NUMERIC NOT NULL,
 			FOREIGN KEY (worker_id) REFERENCES workers(id),
