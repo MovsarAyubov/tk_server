@@ -67,6 +67,9 @@ func DeleteWorker(c *gin.Context) {
 		c.JSON(400, err)
 		return
 	}
+
+	// query := `DELETE FROM done_work WHERE worker_id=$1`
+	// database.Connection.Db.Exec(query, worker.Id)
 	query := `DELETE FROM workers WHERE Id=$1 RETURNING id`
 	var id int
 	err := database.Connection.Db.QueryRow(query, worker.Id).Scan(&id)

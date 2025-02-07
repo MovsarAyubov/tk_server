@@ -7,8 +7,6 @@ import (
 	"tk_app_v1/src/api"
 	"tk_app_v1/src/database"
 
-	// "tk_app_v1/src/models"
-
 	"github.com/joho/godotenv"
 )
 
@@ -59,11 +57,26 @@ func main() {
 	// 	}
 	// }
 
-	// for i := 0; i < len(cells); i++ {
-	// 	query := `INSERT INTO cell(id) VALUES($1)`
-	// 	err = database.Connection.Db.QueryRow(query, cells[i]).Err()
-	// 	if err != nil {
-	// 		panic(err)
+	// fullRow := models.FullRow{}
+	// for fr := 1; fr < 165; fr++ {
+	// 	fullRow.FullRowId = fr
+	// 	for cl := 0; cl < 66; cl++ {
+	// 		if cl == 0 {
+	// 			fullRow.LeftCellId = 1
+	// 		} else {
+	// 			fullRow.LeftCellId = fr
+	// 		}
+	// 		fullRow.LeftCellId = 1
+	// 		fullRow.RightCellId = 66 - fr
+
+	// 		for row := 0; row < 165; row++ {
+	// 			if row == 0 {
+	// 				fullRow.LeftRowId = 1
+	// 			} else {
+	// 				fullRow.LeftRowId = row
+	// 			}
+	// 			fullRow.RightRowId = 165 * 2 - row
+	// 		}
 	// 	}
 	// }
 	// 	for i := 1; i < len(rows); i++ {

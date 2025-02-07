@@ -46,6 +46,7 @@ func CreateTables(connection DatabaseConnection) {
 	createTypeOfWorkTable(connection)
 	createCellTable(connection)
 	createRowTable(connection)
+	createFullRowTable(connection)
 	createDoneWorkTable(connection)
 }
 
@@ -102,18 +103,33 @@ func createRowTable(connection DatabaseConnection) {
 	}
 }
 
+func createFullRowTable(connection DatabaseConnection) {
+	_, err := connection.Db.Exec(`
+		CREATE TABLE IF NOT EXISTS full_row (
+			id SERIAL PRIMARY KEY,
+			right_row_id INT NOT NULL,
+			left_row_id INT NOT NULL,
+			right_cell_id INT NOT NULL,
+			left_cell_id INT NOT NULL
+		)
+	`)
+	if err != nil {
+		panic(err)
+	}
+}
+
 func createDoneWorkTable(connection DatabaseConnection) {
 	_, err := connection.Db.Exec(`
 		CREATE TABLE IF NOT EXISTS done_work (
 			id SERIAL PRIMARY KEY,
 			date VARCHAR(40) NOT NULL,
 			worker_id INT  NOT NULL,
-			type_of_work_id INT  NOT NULL,
-			cell_id INT ,
-			row_id INT ,
+			type_of_work_id INT NOT NULL,
+			cell_id INT,
+			row_id INT,
 			count NUMERIC NOT NULL,
 			income NUMERIC NOT NULL,
-			FOREIGN KEY (worker_id) REFERENCES workers(id),
+			FOREIGN KEY (worker_id) REFERENCES workers(id) ON DELETE CASCADE,
 			FOREIGN KEY (type_of_work_id) REFERENCES type_of_work(id),
 			FOREIGN KEY (cell_id) REFERENCES cell(id)
 		)

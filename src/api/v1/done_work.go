@@ -13,6 +13,22 @@ import (
 
 func AddDoneWork(c *gin.Context) {
 
+	// cellid := c.Query("cellId")
+	// date := c.Query("date")
+
+	var exists bool
+	// checkQuery := `SELECT EXISTS(SELECT 1 FROM don_work WHERE date=$1 AND cell_id=$2)`
+	// err := database.Connection.Db.QueryRow(checkQuery, date, cellid).Scan(&exists)
+	// if err != nil {
+	// 	c.JSON(500, err)
+	// 	return
+	// }
+
+	if exists {
+		c.JSON(409, gin.H{"error": "already exists"})
+		return
+	}
+
 	var doneWork models.DoneWorkModel
 
 	if err := c.ShouldBindJSON(&doneWork); err != nil {
@@ -26,7 +42,10 @@ func AddDoneWork(c *gin.Context) {
 
 	if err != nil {
 		fmt.Println("Database error:", err)
-		c.JSON(400, gin.H{"error": "Database error", "details": err.Error()})
+		c.JSON(400, gin.H{
+			"error":   "Database error",
+			"details": err.Error(),
+		})
 		return
 	}
 	c.JSON(200, nil)
@@ -69,4 +88,25 @@ func FetchDonWorksByWorkerId(c *gin.Context) {
 		return
 	}
 	c.JSON(200, models.DoneWorkServerResponse{Items: doneWorks})
+}
+
+func GetDoneWorkByDateAndCellID(c *gin.Context) {
+	cellId := c.Query("cellId")
+	date := c.Query("date")
+
+	items := []models.CountAndIncome{}
+
+	query := `
+		SELECT count, income
+		FROM done_work
+		WHERE date = $1 AND cell_id = $2
+	`
+	err := database.Connection.Db.Select(&items, query, cellId, date)
+
+	if err != nil {
+		fmt.Println("Database error:", err)
+		c.JSON(400, gin.H{"error": "Database error", "details": err.Error()})
+		return
+	}
+	c.JSON(200, models.CountAndIncomeResponse{Items: items})
 }
