@@ -51,6 +51,46 @@ func AddDoneWork(c *gin.Context) {
 	c.JSON(200, nil)
 }
 
+func AddharvestDoneWork(c *gin.Context) {
+
+	// cellid := c.Query("cellId")
+	// date := c.Query("date")
+
+	var exists bool
+	// checkQuery := `SELECT EXISTS(SELECT 1 FROM don_work WHERE date=$1 AND cell_id=$2)`
+	// err := database.Connection.Db.QueryRow(checkQuery, date, cellid).Scan(&exists)
+	// if err != nil {
+	// 	c.JSON(500, err) m
+	// 	return
+	// }
+
+	if exists {
+		c.JSON(409, gin.H{"error": "already exists"})
+		return
+	}
+
+	var doneWork models.DoneWorkModel
+
+	if err := c.ShouldBindJSON(&doneWork); err != nil {
+		c.JSON(400, err)
+		return
+	}
+
+	query := `INSERT INTO done_work (date, worker_id, type_of_work_id, cell_id, row_id, count, income) VALUES ($1, $2, $3, $4, $5, $6, $7)`
+
+	err := database.Connection.Db.QueryRow(query, doneWork.Date, doneWork.Worker_id, doneWork.Type_of_work_id, doneWork.Cell_id, doneWork.Row_id, doneWork.Count, doneWork.Income).Err()
+
+	if err != nil {
+		fmt.Println("Database error:", err)
+		c.JSON(400, gin.H{
+			"error":   "Database error",
+			"details": err.Error(),
+		})
+		return
+	}
+	c.JSON(200, nil)
+}
+
 func FetchDonWorksByWorkerId(c *gin.Context) {
 	workerIDStr := c.Query("workerId")
 	if workerIDStr == "" {
